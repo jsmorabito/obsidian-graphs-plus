@@ -67,8 +67,8 @@ Each plugin paints its own named layer, and `setOverlay(key, null)` removes it. 
 
 Graphs Plus isn't in the community plugin list yet. To install it:
 
-- **With [BRAT](https://github.com/TfTHacker/obsidian42-brat):** add `jsmorabito/graphs-plus` as a beta plugin.
-- **By hand:** download `main.js`, `manifest.json` and `styles.css` from the [latest release](https://github.com/jsmorabito/graphs-plus/releases/latest) into `.obsidian/plugins/graphs-plus/` in your vault, then turn the plugin on in **Settings → Community plugins**.
+- **With [BRAT](https://github.com/TfTHacker/obsidian42-brat):** add `jsmorabito/obsidian-graphs-plus` as a beta plugin.
+- **By hand:** download `main.js`, `manifest.json` and `styles.css` from the [latest release](https://github.com/jsmorabito/obsidian-graphs-plus/releases/latest) into `.obsidian/plugins/graphs-plus/` in your vault, then turn the plugin on in **Settings → Community plugins**.
 
 ## Development
 
