@@ -1,4 +1,9 @@
-import { PluginSettingTab, Setting, type App } from "obsidian";
+import {
+  PluginSettingTab,
+  Setting,
+  type App,
+  type SettingDefinitionItem,
+} from "obsidian";
 import type GraphPlusPlugin from "./main";
 
 export type GraphPlusSettings = {
@@ -10,6 +15,12 @@ export const DEFAULT_SETTINGS: GraphPlusSettings = {
   nodeClick: "open",
 };
 
+const NODE_CLICK = {
+  name: "Clicking a node",
+  desc: "Open the note, like the core graph, or select it and show a card with its links and a preview. Holding the modifier key while clicking always opens the note.",
+  options: { open: "Opens the note", card: "Shows a card" },
+};
+
 export class GraphPlusSettingTab extends PluginSettingTab {
   constructor(
     app: App,
@@ -18,18 +29,32 @@ export class GraphPlusSettingTab extends PluginSettingTab {
     super(app, plugin);
   }
 
+  /** Obsidian 1.13+ renders these and indexes them for settings search. */
+  getSettingDefinitions(): SettingDefinitionItem[] {
+    return [
+      {
+        name: NODE_CLICK.name,
+        desc: NODE_CLICK.desc,
+        control: {
+          type: "dropdown",
+          key: "nodeClick",
+          defaultValue: DEFAULT_SETTINGS.nodeClick,
+          options: NODE_CLICK.options,
+        },
+      },
+    ];
+  }
+
+  /** Fallback for Obsidian versions before 1.13, which don't read the definitions. */
   display(): void {
     const { containerEl } = this;
     containerEl.empty();
     new Setting(containerEl)
-      .setName("Clicking a node")
-      .setDesc(
-        "Open the note, like the core graph, or select it and show a card with its links and a preview. Holding the modifier key while clicking always opens the note.",
-      )
+      .setName(NODE_CLICK.name)
+      .setDesc(NODE_CLICK.desc)
       .addDropdown((d) =>
         d
-          .addOption("open", "Opens the note")
-          .addOption("card", "Shows a card")
+          .addOptions(NODE_CLICK.options)
           .setValue(this.plugin.settings.nodeClick)
           .onChange(async (value) => {
             this.plugin.settings.nodeClick = value === "card" ? "card" : "open";
