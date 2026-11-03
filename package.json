@@ -1,6 +1,6 @@
 {
   "name": "graphs-plus",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A graph view that looks and behaves like the core graph, but can be opened several times, saved to .graph files, and extended.",
   "main": "main.js",
   "type": "module",
