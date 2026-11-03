@@ -149,7 +149,7 @@ export class GraphPlusView extends ItemView implements GraphHost {
   }
 
   getDisplayText(): string {
-    return this.state.mode === "sandbox" ? "Graph plus sandbox" : "Graph plus";
+    return this.state.mode === "sandbox" ? "Graph Plus sandbox" : "Graph Plus";
   }
 
   getIcon(): string {
@@ -228,7 +228,7 @@ export class LocalGraphView extends ItemView implements GraphHost {
 
   getDisplayText(): string {
     const file = this.controller?.state.localFile ?? this.state.localFile;
-    return file ? `Graph of ${displayName(file, "")}` : "Local graph plus";
+    return file ? `Graph of ${displayName(file, "")}` : "Graph Plus local graph";
   }
 
   getIcon(): string {

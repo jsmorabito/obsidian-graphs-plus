@@ -18,7 +18,7 @@ export type GraphHandle = {
 };
 
 /**
- * What Graph plus offers other plugins, at
+ * What Graph Plus offers other plugins, at
  * `app.plugins.plugins["graph-plus"].api`. Views are looked up on each call,
  * never stored, so closed tabs are never held on to.
  */

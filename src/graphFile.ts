@@ -90,14 +90,14 @@ export const parseGraphFile = (text: string): GraphFile => {
   try {
     json = JSON.parse(text);
   } catch {
-    throw new GraphFileError("This file is not a Graph plus file.");
+    throw new GraphFileError("This file is not a Graph Plus file.");
   }
   if (!isRecord(json) || json.format !== FORMAT) {
-    throw new GraphFileError("This file is not a Graph plus file.");
+    throw new GraphFileError("This file is not a Graph Plus file.");
   }
   if (typeof json.version !== "number" || json.version > FORMAT_VERSION) {
     throw new GraphFileError(
-      "This file was saved by a newer version of Graph plus.",
+      "This file was saved by a newer version of Graph Plus.",
     );
   }
   const mode: GraphMode =

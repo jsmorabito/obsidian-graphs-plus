@@ -38,15 +38,15 @@ export default class GraphPlusPlugin extends Plugin {
     } catch {
       // Another plugin (or a future Obsidian) already owns `.graph`.
       new Notice(
-        "Graph plus: another plugin already opens .graph files, so they won't open as graphs. Everything else still works.",
+        "Graph Plus: another plugin already opens .graph files, so they won't open as graphs. Everything else still works.",
       );
     }
     this.registerHoverLinkSource(HOVER_SOURCE, {
-      display: "Graph plus",
+      display: "Graph Plus",
       defaultMod: true,
     });
 
-    this.addRibbonIcon(ICON, "Open graph plus", (e) =>
+    this.addRibbonIcon(ICON, "Open Graph Plus", (e) =>
       void openGraphView(this, "vault", e.metaKey || e.ctrlKey),
     );
 
@@ -148,7 +148,7 @@ export default class GraphPlusPlugin extends Plugin {
           menu.addItem((item) =>
             item
               .setSection("view.linked")
-              .setTitle("Open local graph plus")
+              .setTitle("Open local graph in Graph Plus")
               .setIcon(ICON)
               .onClick(() => void openLocalGraph(this, file, leaf)),
           );

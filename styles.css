@@ -1,4 +1,4 @@
-/* Core zeroes the view padding per view type; Graph plus views need the same. */
+/* Core zeroes the view padding per view type; Graph Plus views need the same. */
 .workspace-leaf-content[data-type="graph-plus"] .view-content,
 .workspace-leaf-content[data-type="graph-plus-local"] .view-content,
 .workspace-leaf-content[data-type="graph-plus-file"] .view-content,

@@ -1,6 +1,6 @@
 {
   "id": "graph-plus",
-  "name": "Graph plus",
+  "name": "Graph Plus",
   "version": "0.1.0",
   "minAppVersion": "1.7.2",
   "description": "A graph view that looks and behaves like the core graph, but can be opened several times, saved to .graph files, and extended.",

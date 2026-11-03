@@ -54,7 +54,7 @@ const KEYS: Record<string, KeyAction> = {
 };
 
 /**
- * Everything a Graph plus view does, independent of which view hosts it (a
+ * Everything a Graph Plus view does, independent of which view hosts it (a
  * vault graph, a local graph or a `.graph` file): builds the data the way
  * core does, drives the renderer and the settings panel, handles clicks,
  * hover previews, the timelapse, overlays and the node card.
