@@ -1,0 +1,147 @@
+/* Core zeroes the view padding per view type; Graph plus views need the same. */
+.workspace-leaf-content[data-type="graph-plus"] .view-content,
+.workspace-leaf-content[data-type="graph-plus-local"] .view-content,
+.workspace-leaf-content[data-type="graph-plus-file"] .view-content,
+.graph-plus-content {
+  position: relative;
+  padding: 0;
+  overflow: hidden;
+}
+
+.graph-plus-view {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.graph-plus-canvas {
+  position: absolute;
+  inset: 0;
+  touch-action: none;
+}
+
+.graph-plus-canvas.is-pointer {
+  cursor: pointer;
+}
+
+body.is-grabbing .graph-plus-canvas {
+  cursor: grabbing;
+}
+
+.graph-plus-empty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--size-4-8);
+  text-align: center;
+  color: var(--text-faint);
+  pointer-events: none;
+}
+
+.graph-plus-empty.is-hidden {
+  display: none;
+}
+
+.graph-controls .graph-color-group.is-dragging {
+  opacity: 0.5;
+}
+
+/* Card beside a selected node */
+.graph-plus-card {
+  position: absolute;
+  top: var(--graph-plus-card-y, 0);
+  left: var(--graph-plus-card-x, 0);
+  z-index: var(--layer-popover);
+  width: 22rem;
+  max-height: calc(100% - var(--size-4-4));
+  display: flex;
+  flex-direction: column;
+  background-color: var(--background-primary);
+  border: var(--border-width) solid var(--background-modifier-border);
+  border-radius: var(--radius-l);
+  box-shadow: var(--shadow-l);
+  overflow: hidden;
+}
+
+.graph-plus-card.is-hidden {
+  visibility: hidden;
+}
+
+.graph-plus-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--size-2-3) var(--size-4-2);
+  border-bottom: var(--border-width) solid var(--background-modifier-border);
+}
+
+.graph-plus-card-tabs {
+  display: flex;
+  gap: var(--size-4-3);
+}
+
+.graph-plus-card-tabs button {
+  padding: 0 0 var(--size-2-2);
+  height: auto;
+  background: transparent;
+  box-shadow: none;
+  color: var(--text-muted);
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+}
+
+.graph-plus-card-tabs button.is-active {
+  color: var(--text-accent);
+  border-bottom-color: var(--text-accent);
+}
+
+.graph-plus-card-actions {
+  display: flex;
+  gap: var(--size-2-2);
+}
+
+.graph-plus-card-title {
+  padding: var(--size-4-3) var(--size-4-3) 0;
+  font-weight: var(--font-semibold);
+}
+
+.graph-plus-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-4-3);
+  padding: var(--size-4-3);
+  overflow: auto;
+}
+
+.graph-plus-card-section-title {
+  margin-bottom: var(--size-2-2);
+  font-size: var(--font-ui-smaller);
+  color: var(--text-muted);
+}
+
+.graph-plus-card-link {
+  padding: var(--size-2-1) var(--size-2-3);
+  border-radius: var(--radius-s);
+  font-size: var(--font-ui-small);
+  cursor: var(--cursor);
+}
+
+.graph-plus-card-link:hover {
+  background-color: var(--background-modifier-hover);
+}
+
+.graph-plus-card-link.is-unresolved {
+  color: var(--text-faint);
+}
+
+.graph-plus-card-empty {
+  font-size: var(--font-ui-small);
+  color: var(--text-faint);
+}
+
+.graph-plus-card-preview {
+  font-size: var(--font-ui-small);
+}
