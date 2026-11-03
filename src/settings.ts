@@ -4,14 +4,14 @@ import {
   type App,
   type SettingDefinitionItem,
 } from "obsidian";
-import type GraphPlusPlugin from "./main";
+import type GraphsPlusPlugin from "./main";
 
-export type GraphPlusSettings = {
+export type GraphsPlusSettings = {
   /** What a plain click on a node does; Cmd/Ctrl-click always opens the note. */
   nodeClick: "open" | "card";
 };
 
-export const DEFAULT_SETTINGS: GraphPlusSettings = {
+export const DEFAULT_SETTINGS: GraphsPlusSettings = {
   nodeClick: "open",
 };
 
@@ -21,10 +21,10 @@ const NODE_CLICK = {
   options: { open: "Opens the note", card: "Shows a card" },
 };
 
-export class GraphPlusSettingTab extends PluginSettingTab {
+export class GraphsPlusSettingTab extends PluginSettingTab {
   constructor(
     app: App,
-    private plugin: GraphPlusPlugin,
+    private plugin: GraphsPlusPlugin,
   ) {
     super(app, plugin);
   }

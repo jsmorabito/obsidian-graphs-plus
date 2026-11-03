@@ -24,11 +24,11 @@ import {
   type GraphMode,
   type GraphViewState,
 } from "./graphState";
-import type GraphPlusPlugin from "./main";
+import type GraphsPlusPlugin from "./main";
 
-export const VIEW_TYPE_GRAPH = "graph-plus";
-export const VIEW_TYPE_LOCAL = "graph-plus-local";
-export const VIEW_TYPE_FILE = "graph-plus-file";
+export const VIEW_TYPE_GRAPH = "graphs-plus";
+export const VIEW_TYPE_LOCAL = "graphs-plus-local";
+export const VIEW_TYPE_FILE = "graphs-plus-file";
 export const VIEW_TYPES = [VIEW_TYPE_GRAPH, VIEW_TYPE_LOCAL, VIEW_TYPE_FILE];
 /** Core's graph view icon. */
 export const ICON = "git-fork";
@@ -46,13 +46,13 @@ export interface GraphHost {
 }
 
 export const isGraphHost = (view: unknown): view is GraphHost & ItemView =>
-  view instanceof GraphPlusView ||
+  view instanceof GraphsPlusView ||
   view instanceof LocalGraphView ||
   view instanceof GraphFileView;
 
 /** Pane-menu items every graph view shares, like core's "Copy screenshot". */
 const addGraphMenuItems = (
-  plugin: GraphPlusPlugin,
+  plugin: GraphsPlusPlugin,
   menu: Menu,
   controller: GraphController | null,
   name: string,
@@ -96,7 +96,7 @@ const addGraphMenuItems = (
 
 /** Writes the view's state, camera and layout to a new `.graph` file and opens it. */
 export const saveAsGraphFile = async (
-  plugin: GraphPlusPlugin,
+  plugin: GraphsPlusPlugin,
   controller: GraphController,
   name: string,
 ): Promise<void> => {
@@ -114,7 +114,7 @@ export const saveAsGraphFile = async (
 
 /** Applies the core graph's saved settings (`graph.json`) to a view. */
 export const copyCoreSettings = async (
-  plugin: GraphPlusPlugin,
+  plugin: GraphsPlusPlugin,
   controller: GraphController,
 ): Promise<void> => {
   const { adapter, configDir } = plugin.app.vault;
@@ -132,14 +132,14 @@ export const copyCoreSettings = async (
  * starts empty and shows only the notes you add. Its state lives in the
  * workspace layout.
  */
-export class GraphPlusView extends ItemView implements GraphHost {
+export class GraphsPlusView extends ItemView implements GraphHost {
   controller: GraphController | null = null;
   hoverPopover: HoverPopover | null = null;
   private state: GraphViewState = defaultGraphState();
 
   constructor(
     leaf: WorkspaceLeaf,
-    private plugin: GraphPlusPlugin,
+    private plugin: GraphsPlusPlugin,
   ) {
     super(leaf);
     this.navigation = true;
@@ -150,7 +150,7 @@ export class GraphPlusView extends ItemView implements GraphHost {
   }
 
   getDisplayText(): string {
-    return this.state.mode === "sandbox" ? "Graph Plus sandbox" : "Graph Plus";
+    return this.state.mode === "sandbox" ? "Graphs Plus sandbox" : "Graphs Plus";
   }
 
   getIcon(): string {
@@ -217,7 +217,7 @@ export class LocalGraphView extends ItemView implements GraphHost {
 
   constructor(
     leaf: WorkspaceLeaf,
-    private plugin: GraphPlusPlugin,
+    private plugin: GraphsPlusPlugin,
   ) {
     super(leaf);
     this.navigation = false;
@@ -229,7 +229,7 @@ export class LocalGraphView extends ItemView implements GraphHost {
 
   getDisplayText(): string {
     const file = this.controller?.state.localFile ?? this.state.localFile;
-    return file ? `Graph of ${displayName(file, "")}` : "Graph Plus local graph";
+    return file ? `Graph of ${displayName(file, "")}` : "Graphs Plus local graph";
   }
 
   getIcon(): string {
@@ -321,7 +321,7 @@ export class GraphFileView extends TextFileView implements GraphHost {
 
   constructor(
     leaf: WorkspaceLeaf,
-    private plugin: GraphPlusPlugin,
+    private plugin: GraphsPlusPlugin,
   ) {
     super(leaf);
   }
@@ -360,7 +360,7 @@ export class GraphFileView extends TextFileView implements GraphHost {
       this.controller?.destroy();
       this.controller = null;
       this.contentEl.empty();
-      this.contentEl.createDiv({ cls: "graph-plus-empty", text: this.error });
+      this.contentEl.createDiv({ cls: "graphs-plus-empty", text: this.error });
       return;
     }
     if (this.controller && !clear) {
@@ -430,7 +430,7 @@ export class GraphFileView extends TextFileView implements GraphHost {
 
 /** Opens a new graph view of the given mode. */
 export const openGraphView = async (
-  plugin: GraphPlusPlugin,
+  plugin: GraphsPlusPlugin,
   mode: Exclude<GraphMode, "local">,
   newTab: boolean,
 ): Promise<void> => {
@@ -444,7 +444,7 @@ export const openGraphView = async (
 
 /** Opens a local graph of `file` in a split beside the active tab, like core. */
 export const openLocalGraph = async (
-  plugin: GraphPlusPlugin,
+  plugin: GraphsPlusPlugin,
   file: TFile,
   leaf?: WorkspaceLeaf,
 ): Promise<void> => {

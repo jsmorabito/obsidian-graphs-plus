@@ -159,7 +159,7 @@ export class GraphRenderer {
     private containerEl: HTMLElement,
     private sim: ForceSimulation,
   ) {
-    this.canvas = containerEl.createEl("canvas", { cls: "graph-plus-canvas" });
+    this.canvas = containerEl.createEl("canvas", { cls: "graphs-plus-canvas" });
     const ctx = this.canvas.getContext("2d");
     if (!ctx) throw new Error("Canvas 2D is not available");
     this.ctx = ctx;

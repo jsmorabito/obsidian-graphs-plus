@@ -15,7 +15,9 @@ import {
  */
 
 export const GRAPH_EXTENSION = "graph";
-export const FORMAT = "graph-plus";
+export const FORMAT = "graphs-plus";
+/** The tag files had before the plugin was renamed from Graph Plus. */
+const OLD_FORMATS: readonly unknown[] = ["graph-plus"];
 export const FORMAT_VERSION = 1;
 
 export type Camera = { scale: number; x: number; y: number };
@@ -90,14 +92,17 @@ export const parseGraphFile = (text: string): GraphFile => {
   try {
     json = JSON.parse(text);
   } catch {
-    throw new GraphFileError("This file is not a Graph Plus file.");
+    throw new GraphFileError("This file is not a Graphs Plus file.");
   }
-  if (!isRecord(json) || json.format !== FORMAT) {
-    throw new GraphFileError("This file is not a Graph Plus file.");
+  if (
+    !isRecord(json) ||
+    (json.format !== FORMAT && !OLD_FORMATS.includes(json.format))
+  ) {
+    throw new GraphFileError("This file is not a Graphs Plus file.");
   }
   if (typeof json.version !== "number" || json.version > FORMAT_VERSION) {
     throw new GraphFileError(
-      "This file was saved by a newer version of Graph Plus.",
+      "This file was saved by a newer version of Graphs Plus.",
     );
   }
   const mode: GraphMode =

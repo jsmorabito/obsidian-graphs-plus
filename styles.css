@@ -1,35 +1,35 @@
-/* Core zeroes the view padding per view type; Graph Plus views need the same. */
-.workspace-leaf-content[data-type="graph-plus"] .view-content,
-.workspace-leaf-content[data-type="graph-plus-local"] .view-content,
-.workspace-leaf-content[data-type="graph-plus-file"] .view-content,
-.graph-plus-content {
+/* Core zeroes the view padding per view type; Graphs Plus views need the same. */
+.workspace-leaf-content[data-type="graphs-plus"] .view-content,
+.workspace-leaf-content[data-type="graphs-plus-local"] .view-content,
+.workspace-leaf-content[data-type="graphs-plus-file"] .view-content,
+.graphs-plus-content {
   position: relative;
   padding: 0;
   overflow: hidden;
 }
 
-.graph-plus-view {
+.graphs-plus-view {
   position: relative;
   width: 100%;
   height: 100%;
   overflow: hidden;
 }
 
-.graph-plus-canvas {
+.graphs-plus-canvas {
   position: absolute;
   inset: 0;
   touch-action: none;
 }
 
-.graph-plus-canvas.is-pointer {
+.graphs-plus-canvas.is-pointer {
   cursor: pointer;
 }
 
-body.is-grabbing .graph-plus-canvas {
+body.is-grabbing .graphs-plus-canvas {
   cursor: grabbing;
 }
 
-.graph-plus-empty {
+.graphs-plus-empty {
   position: absolute;
   inset: 0;
   display: flex;
@@ -41,7 +41,7 @@ body.is-grabbing .graph-plus-canvas {
   pointer-events: none;
 }
 
-.graph-plus-empty.is-hidden {
+.graphs-plus-empty.is-hidden {
   display: none;
 }
 
@@ -50,10 +50,10 @@ body.is-grabbing .graph-plus-canvas {
 }
 
 /* Card beside a selected node */
-.graph-plus-card {
+.graphs-plus-card {
   position: absolute;
-  top: var(--graph-plus-card-y, 0);
-  left: var(--graph-plus-card-x, 0);
+  top: var(--graphs-plus-card-y, 0);
+  left: var(--graphs-plus-card-x, 0);
   z-index: var(--layer-popover);
   width: 22rem;
   max-height: calc(100% - var(--size-4-4));
@@ -66,11 +66,11 @@ body.is-grabbing .graph-plus-canvas {
   overflow: hidden;
 }
 
-.graph-plus-card.is-hidden {
+.graphs-plus-card.is-hidden {
   visibility: hidden;
 }
 
-.graph-plus-card-header {
+.graphs-plus-card-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -78,12 +78,12 @@ body.is-grabbing .graph-plus-canvas {
   border-bottom: var(--border-width) solid var(--background-modifier-border);
 }
 
-.graph-plus-card-tabs {
+.graphs-plus-card-tabs {
   display: flex;
   gap: var(--size-4-3);
 }
 
-.graph-plus-card-tabs button {
+.graphs-plus-card-tabs button {
   padding: 0 0 var(--size-2-2);
   height: auto;
   background: transparent;
@@ -93,22 +93,22 @@ body.is-grabbing .graph-plus-canvas {
   border-radius: 0;
 }
 
-.graph-plus-card-tabs button.is-active {
+.graphs-plus-card-tabs button.is-active {
   color: var(--text-accent);
   border-bottom-color: var(--text-accent);
 }
 
-.graph-plus-card-actions {
+.graphs-plus-card-actions {
   display: flex;
   gap: var(--size-2-2);
 }
 
-.graph-plus-card-title {
+.graphs-plus-card-title {
   padding: var(--size-4-3) var(--size-4-3) 0;
   font-weight: var(--font-semibold);
 }
 
-.graph-plus-card-body {
+.graphs-plus-card-body {
   display: flex;
   flex-direction: column;
   gap: var(--size-4-3);
@@ -116,32 +116,32 @@ body.is-grabbing .graph-plus-canvas {
   overflow: auto;
 }
 
-.graph-plus-card-section-title {
+.graphs-plus-card-section-title {
   margin-bottom: var(--size-2-2);
   font-size: var(--font-ui-smaller);
   color: var(--text-muted);
 }
 
-.graph-plus-card-link {
+.graphs-plus-card-link {
   padding: var(--size-2-1) var(--size-2-3);
   border-radius: var(--radius-s);
   font-size: var(--font-ui-small);
   cursor: var(--cursor);
 }
 
-.graph-plus-card-link:hover {
+.graphs-plus-card-link:hover {
   background-color: var(--background-modifier-hover);
 }
 
-.graph-plus-card-link.is-unresolved {
+.graphs-plus-card-link.is-unresolved {
   color: var(--text-faint);
 }
 
-.graph-plus-card-empty {
+.graphs-plus-card-empty {
   font-size: var(--font-ui-small);
   color: var(--text-faint);
 }
 
-.graph-plus-card-preview {
+.graphs-plus-card-preview {
   font-size: var(--font-ui-small);
 }

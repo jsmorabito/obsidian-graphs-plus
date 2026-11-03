@@ -1,13 +1,13 @@
 import { Notice, Plugin, TFile, TFolder } from "obsidian";
-import { createApi, type GraphPlusApi } from "./api";
+import { createApi, type GraphsPlusApi } from "./api";
 import { ContentIndex } from "./contentIndex";
 import { HOVER_SOURCE, availablePath } from "./graphController";
 import { GRAPH_EXTENSION, serializeGraphFile } from "./graphFile";
 import { defaultGraphState } from "./graphState";
-import { DEFAULT_SETTINGS, GraphPlusSettingTab, type GraphPlusSettings } from "./settings";
+import { DEFAULT_SETTINGS, GraphsPlusSettingTab, type GraphsPlusSettings } from "./settings";
 import {
   GraphFileView,
-  GraphPlusView,
+  GraphsPlusView,
   ICON,
   LocalGraphView,
   VIEW_TYPE_FILE,
@@ -20,17 +20,17 @@ import {
   saveAsGraphFile,
 } from "./views";
 
-export default class GraphPlusPlugin extends Plugin {
-  settings: GraphPlusSettings = { ...DEFAULT_SETTINGS };
+export default class GraphsPlusPlugin extends Plugin {
+  settings: GraphsPlusSettings = { ...DEFAULT_SETTINGS };
   contentIndex = new ContentIndex(this.app);
-  api: GraphPlusApi = createApi(this);
+  api: GraphsPlusApi = createApi(this);
 
   async onload(): Promise<void> {
     await this.loadSettings();
     this.contentIndex.register(this);
-    this.addSettingTab(new GraphPlusSettingTab(this.app, this));
+    this.addSettingTab(new GraphsPlusSettingTab(this.app, this));
 
-    this.registerView(VIEW_TYPE_GRAPH, (leaf) => new GraphPlusView(leaf, this));
+    this.registerView(VIEW_TYPE_GRAPH, (leaf) => new GraphsPlusView(leaf, this));
     this.registerView(VIEW_TYPE_LOCAL, (leaf) => new LocalGraphView(leaf, this));
     this.registerView(VIEW_TYPE_FILE, (leaf) => new GraphFileView(leaf, this));
     try {
@@ -38,15 +38,15 @@ export default class GraphPlusPlugin extends Plugin {
     } catch {
       // Another plugin (or a future Obsidian) already owns `.graph`.
       new Notice(
-        "Graph Plus: another plugin already opens .graph files, so they won't open as graphs. Everything else still works.",
+        "Graphs Plus: another plugin already opens .graph files, so they won't open as graphs. Everything else still works.",
       );
     }
     this.registerHoverLinkSource(HOVER_SOURCE, {
-      display: "Graph Plus",
+      display: "Graphs Plus",
       defaultMod: true,
     });
 
-    this.addRibbonIcon(ICON, "Open Graph Plus", (e) =>
+    this.addRibbonIcon(ICON, "Open Graphs Plus", (e) =>
       void openGraphView(this, "vault", e.metaKey || e.ctrlKey),
     );
 
@@ -104,7 +104,7 @@ export default class GraphPlusPlugin extends Plugin {
       id: "save-as",
       name: "Save the active graph as a graph file",
       checkCallback: (checking) => {
-        const view = this.app.workspace.getActiveViewOfType(GraphPlusView)
+        const view = this.app.workspace.getActiveViewOfType(GraphsPlusView)
           ?? this.app.workspace.getActiveViewOfType(LocalGraphView);
         const controller = view?.controller;
         if (!view || !controller) return false;
@@ -153,7 +153,7 @@ export default class GraphPlusPlugin extends Plugin {
           menu.addItem((item) =>
             item
               .setSection("view.linked")
-              .setTitle("Open local graph in Graph Plus")
+              .setTitle("Open local graph in Graphs Plus")
               .setIcon(ICON)
               .onClick(() => void openLocalGraph(this, file, leaf)),
           );
@@ -185,7 +185,7 @@ export default class GraphPlusPlugin extends Plugin {
   }
 
   async loadSettings(): Promise<void> {
-    this.settings = { ...DEFAULT_SETTINGS, ...((await this.loadData()) as Partial<GraphPlusSettings> | null) };
+    this.settings = { ...DEFAULT_SETTINGS, ...((await this.loadData()) as Partial<GraphsPlusSettings> | null) };
   }
 
   async saveSettings(): Promise<void> {

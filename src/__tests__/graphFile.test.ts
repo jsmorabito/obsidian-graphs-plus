@@ -27,7 +27,7 @@ describe(".graph files", () => {
       ]),
     });
     const json = JSON.parse(text) as { format: string; version: number; positions: object };
-    expect(json.format).toBe("graph-plus");
+    expect(json.format).toBe("graphs-plus");
     expect(json.version).toBe(1);
     expect(Object.keys(json.positions)).toEqual(["a.md", "b.md"]);
     const back = parseGraphFile(text);
@@ -50,8 +50,16 @@ describe(".graph files", () => {
     expect(() => parseGraphFile("p 4 3\n1 2\n")).toThrow(GraphFileError);
     expect(() => parseGraphFile('{"nodes": []}')).toThrow(GraphFileError);
     expect(() =>
-      parseGraphFile('{"format": "graph-plus", "version": 99, "options": {}}'),
+      parseGraphFile('{"format": "graphs-plus", "version": 99, "options": {}}'),
     ).toThrow(/newer version/);
+  });
+
+  it("still opens files saved before the rename from Graph Plus", () => {
+    const back = parseGraphFile(
+      '{"format": "graph-plus", "version": 1, "mode": "sandbox", "members": ["a.md"], "options": {}}',
+    );
+    expect(back.state.mode).toBe("sandbox");
+    expect(back.state.members).toEqual(["a.md"]);
   });
 
   it("only reports meaningful layout changes", () => {

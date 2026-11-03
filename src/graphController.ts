@@ -29,9 +29,9 @@ import { defaultGraphState, type GraphViewState } from "./graphState";
 import { NodeCard } from "./nodeCard";
 import { mergeOverlays, type GraphOverlay } from "./overlay";
 import { isAttachment, noteInfo, vaultSource } from "./vaultSource";
-import type GraphPlusPlugin from "./main";
+import type GraphsPlusPlugin from "./main";
 
-export const HOVER_SOURCE = "graph-plus";
+export const HOVER_SOURCE = "graphs-plus";
 
 /** What a view gives the controller: where to draw and how to persist. */
 export type ControllerOwner = {
@@ -54,7 +54,7 @@ const KEYS: Record<string, KeyAction> = {
 };
 
 /**
- * Everything a Graph Plus view does, independent of which view hosts it (a
+ * Everything a Graphs Plus view does, independent of which view hosts it (a
  * vault graph, a local graph or a `.graph` file): builds the data the way
  * core does, drives the renderer and the settings panel, handles clicks,
  * hover previews, the timelapse, overlays and the node card.
@@ -86,7 +86,7 @@ export class GraphController extends Component {
   private searchSoon = debounce(() => this.render(), 250, true);
 
   constructor(
-    private plugin: GraphPlusPlugin,
+    private plugin: GraphsPlusPlugin,
     contentEl: HTMLElement,
     private owner: ControllerOwner,
     state: GraphViewState,
@@ -96,8 +96,8 @@ export class GraphController extends Component {
     this.lastSearch = state.filters.search;
     const { app } = plugin;
     const view = owner.view;
-    contentEl.addClass("graph-plus-content");
-    this.host = contentEl.createDiv({ cls: "graph-plus-view" });
+    contentEl.addClass("graphs-plus-content");
+    this.host = contentEl.createDiv({ cls: "graphs-plus-view" });
     this.renderer = new GraphRenderer(this.host, this.sim);
     this.sim.setForces(state.forces);
     this.renderer.setRenderOptions(state.display);
@@ -110,7 +110,7 @@ export class GraphController extends Component {
     this.renderer.onCameraChange = () => this.cameraMoved();
     // A drag changes the layout; let a file view know to save it.
     this.renderer.onDragEnd = () => this.changed();
-    this.emptyEl = this.host.createDiv({ cls: "graph-plus-empty is-hidden" });
+    this.emptyEl = this.host.createDiv({ cls: "graphs-plus-empty is-hidden" });
     this.controls = new GraphControls(app, this.host, this.state, {
       onFilters: (filters) => {
         const searchChanged = filters.search !== this.lastSearch;
@@ -515,8 +515,8 @@ export class GraphController extends Component {
     if (key === this.lastPlacement) return;
     this.lastPlacement = key;
     card.setCssProps({
-      "--graph-plus-card-x": `${Math.round(x)}px`,
-      "--graph-plus-card-y": `${Math.round(y)}px`,
+      "--graphs-plus-card-x": `${Math.round(x)}px`,
+      "--graphs-plus-card-y": `${Math.round(y)}px`,
     });
     card.removeClass("is-hidden");
   }
@@ -552,7 +552,7 @@ export class GraphController extends Component {
 
 /** A free path like `folder/Name.ext`, `folder/Name 1.ext`, ... */
 export const availablePath = (
-  app: GraphPlusPlugin["app"],
+  app: GraphsPlusPlugin["app"],
   folder: string,
   base: string,
   extension: string,
@@ -572,7 +572,7 @@ type InternalPlugins = {
 };
 
 /** Clicking a tag opens core search for it, as core's graph does (if search is on). */
-const openGlobalSearch = (plugin: GraphPlusPlugin, query: string): void => {
+const openGlobalSearch = (plugin: GraphsPlusPlugin, query: string): void => {
   const internal = (plugin.app as unknown as InternalPlugins).internalPlugins;
   internal?.getEnabledPluginById?.("global-search")?.openGlobalSearch(query);
 };

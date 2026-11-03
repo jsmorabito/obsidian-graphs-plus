@@ -1,4 +1,4 @@
-# Graph Plus
+# Graphs Plus
 
 A graph view for [Obsidian](https://obsidian.md) that looks and behaves like the core graph view, with a few things core can't do:
 
@@ -26,7 +26,7 @@ Open a graph from the ribbon icon or the command palette. Commands:
 | Start timelapse animation | Core's animation, building the graph up in file-creation order |
 | Search in the active graph | Focuses the graph's search box |
 
-Right-click a folder for **New graph**, or a note for **Open local graph in Graph Plus**.
+Right-click a folder for **New graph**, or a note for **Open local graph in Graphs Plus**.
 
 By default, clicking a node opens the note, as in core. In the plugin's settings you can switch this to show a card with the note's links and a preview.
 
@@ -36,7 +36,7 @@ A `.graph` file is JSON. Its `options` use the same keys as core's `.obsidian/gr
 
 ```json
 {
-  "format": "graph-plus",
+  "format": "graphs-plus",
   "version": 1,
   "mode": "vault",
   "options": { "search": "tag:#project", "showTags": true, "colorGroups": [] },
@@ -45,12 +45,12 @@ A `.graph` file is JSON. Its `options` use the same keys as core's `.obsidian/gr
 }
 ```
 
-`mode` can be `vault`, `sandbox` (with a `members` list of paths) or `local` (with a `localFile`). Nodes come from the vault every time the file opens, so `positions` only records where they were. Graph Plus won't open or overwrite a `.graph` file that doesn't have `"format": "graph-plus"`.
+`mode` can be `vault`, `sandbox` (with a `members` list of paths) or `local` (with a `localFile`). Nodes come from the vault every time the file opens, so `positions` only records where they were. Graphs Plus won't open or overwrite a `.graph` file that doesn't have `"format": "graphs-plus"`.
 
 ## API
 
 ```ts
-const api = app.plugins.getPlugin("graph-plus")?.api;
+const api = app.plugins.getPlugin("graphs-plus")?.api;
 for (const graph of api.graphs()) {
   graph.setOverlay("my-plugin", {
     nodes: new Map([["Notes/Idea.md", { rgb: 0xe0a030, alpha: 1, sizeBoost: 4 }]]),
@@ -65,10 +65,10 @@ Each plugin paints its own named layer, and `setOverlay(key, null)` removes it. 
 
 ## Installing
 
-Graph Plus isn't in the community plugin list yet. To install it:
+Graphs Plus isn't in the community plugin list yet. To install it:
 
-- **With [BRAT](https://github.com/TfTHacker/obsidian42-brat):** add `jsmorabito/graph-plus` as a beta plugin.
-- **By hand:** download `main.js`, `manifest.json` and `styles.css` from the [latest release](https://github.com/jsmorabito/graph-plus/releases/latest) into `.obsidian/plugins/graph-plus/` in your vault, then turn the plugin on in **Settings → Community plugins**.
+- **With [BRAT](https://github.com/TfTHacker/obsidian42-brat):** add `jsmorabito/graphs-plus` as a beta plugin.
+- **By hand:** download `main.js`, `manifest.json` and `styles.css` from the [latest release](https://github.com/jsmorabito/graphs-plus/releases/latest) into `.obsidian/plugins/graphs-plus/` in your vault, then turn the plugin on in **Settings → Community plugins**.
 
 ## Development
 

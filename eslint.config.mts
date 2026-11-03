@@ -39,12 +39,12 @@ export default defineConfig(
 			'obsidianmd/prefer-create-el':      'off',
 		},
 	},
-	// "Graph Plus" is the plugin's name, a proper noun.
+	// "Graphs Plus" is the plugin's name, a proper noun.
 	{
 		rules: {
 			'obsidianmd/ui/sentence-case': ['warn', {
 				enforceCamelCaseLower: true,
-				ignoreWords: ['Graph', 'Plus'],
+				ignoreWords: ['Graphs', 'Plus'],
 			}],
 		},
 	},

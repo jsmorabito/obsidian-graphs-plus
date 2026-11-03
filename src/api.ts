@@ -1,7 +1,7 @@
 import type { GraphOverlay } from "./overlay";
 import type { GraphViewState } from "./graphState";
 import { isGraphHost } from "./views";
-import type GraphPlusPlugin from "./main";
+import type GraphsPlusPlugin from "./main";
 
 export type { EdgeStyle, GraphOverlay, NodeStyle } from "./overlay";
 export { edgeKey } from "./overlay";
@@ -18,15 +18,15 @@ export type GraphHandle = {
 };
 
 /**
- * What Graph Plus offers other plugins, at
- * `app.plugins.plugins["graph-plus"].api`. Views are looked up on each call,
+ * What Graphs Plus offers other plugins, at
+ * `app.plugins.plugins["graphs-plus"].api`. Views are looked up on each call,
  * never stored, so closed tabs are never held on to.
  */
-export type GraphPlusApi = {
+export type GraphsPlusApi = {
   graphs: () => GraphHandle[];
 };
 
-export const createApi = (plugin: GraphPlusPlugin): GraphPlusApi => ({
+export const createApi = (plugin: GraphsPlusPlugin): GraphsPlusApi => ({
   graphs: () => {
     const handles: GraphHandle[] = [];
     plugin.app.workspace.iterateAllLeaves((leaf) => {

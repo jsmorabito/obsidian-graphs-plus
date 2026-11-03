@@ -37,9 +37,9 @@ export class NodeCard extends Component {
     private handlers: NodeCardHandlers,
   ) {
     super();
-    this.el = host.createDiv({ cls: "graph-plus-card is-hidden" });
-    const header = this.el.createDiv({ cls: "graph-plus-card-header" });
-    const tabs = header.createDiv({ cls: "graph-plus-card-tabs" });
+    this.el = host.createDiv({ cls: "graphs-plus-card is-hidden" });
+    const header = this.el.createDiv({ cls: "graphs-plus-card-header" });
+    const tabs = header.createDiv({ cls: "graphs-plus-card-tabs" });
     for (const [tab, label] of [
       ["links", "Links"],
       ["preview", "Preview"],
@@ -51,7 +51,7 @@ export class NodeCard extends Component {
       });
       this.tabEls.set(tab, el);
     }
-    const actions = header.createDiv({ cls: "graph-plus-card-actions" });
+    const actions = header.createDiv({ cls: "graphs-plus-card-actions" });
     const open = actions.createDiv({ cls: "clickable-icon" });
     setIcon(open, "file-text");
     setTooltip(open, "Open note");
@@ -62,8 +62,8 @@ export class NodeCard extends Component {
     setIcon(close, "x");
     setTooltip(close, "Close");
     close.addEventListener("click", () => this.handlers.onClose());
-    this.titleEl = this.el.createDiv({ cls: "graph-plus-card-title" });
-    this.bodyEl = this.el.createDiv({ cls: "graph-plus-card-body" });
+    this.titleEl = this.el.createDiv({ cls: "graphs-plus-card-title" });
+    this.bodyEl = this.el.createDiv({ cls: "graphs-plus-card-body" });
   }
 
   onunload(): void {
@@ -90,17 +90,17 @@ export class NodeCard extends Component {
   }
 
   private linkList(title: string, ids: string[]): void {
-    const section = this.bodyEl.createDiv({ cls: "graph-plus-card-section" });
-    section.createDiv({ cls: "graph-plus-card-section-title", text: title });
+    const section = this.bodyEl.createDiv({ cls: "graphs-plus-card-section" });
+    section.createDiv({ cls: "graphs-plus-card-section-title", text: title });
     if (ids.length === 0) {
-      section.createDiv({ cls: "graph-plus-card-empty", text: "None" });
+      section.createDiv({ cls: "graphs-plus-card-empty", text: "None" });
       return;
     }
-    const list = section.createDiv({ cls: "graph-plus-card-list" });
+    const list = section.createDiv({ cls: "graphs-plus-card-list" });
     for (const target of ids) {
       const exists = this.app.vault.getAbstractFileByPath(target) instanceof TFile;
       const item = list.createDiv({
-        cls: `graph-plus-card-link${exists ? "" : " is-unresolved"}`,
+        cls: `graphs-plus-card-link${exists ? "" : " is-unresolved"}`,
         text: displayName(target, ""),
       });
       setTooltip(item, target);
@@ -126,7 +126,7 @@ export class NodeCard extends Component {
     const file = this.app.vault.getAbstractFileByPath(id);
     if (!(file instanceof TFile) || isAttachment(id)) {
       this.bodyEl.createDiv({
-        cls: "graph-plus-card-empty",
+        cls: "graphs-plus-card-empty",
         text: file ? "No preview for this file." : "This note doesn't exist yet.",
       });
       return;
@@ -136,7 +136,7 @@ export class NodeCard extends Component {
     const text = await this.app.vault.cachedRead(file);
     // The card may have moved on while the file was being read.
     if (this.preview !== preview) return;
-    const el = this.bodyEl.createDiv({ cls: "graph-plus-card-preview markdown-rendered" });
+    const el = this.bodyEl.createDiv({ cls: "graphs-plus-card-preview markdown-rendered" });
     await MarkdownRenderer.render(this.app, text, el, file.path, preview);
   }
 }
