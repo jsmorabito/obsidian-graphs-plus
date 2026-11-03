@@ -103,6 +103,8 @@ export class GraphRenderer {
     | null = null;
   /** The user panned or zoomed. */
   onCameraChange: (() => void) | null = null;
+  /** The user dragged a node somewhere. */
+  onDragEnd: (() => void) | null = null;
   /** The layout came to rest. */
   onSettled: (() => void) | null = null;
 
@@ -636,6 +638,8 @@ export class GraphRenderer {
         this.dragging = null;
         if (!moved && e.type === "pointerup") {
           this.onNodeClick?.(node.id, node.type, e);
+        } else if (moved) {
+          this.onDragEnd?.();
         }
       }
       if (this.panning) {

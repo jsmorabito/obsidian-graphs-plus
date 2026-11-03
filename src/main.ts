@@ -76,6 +76,11 @@ export default class GraphPlusPlugin extends Plugin {
       callback: () => void this.createGraphFile(),
     });
     this.addCommand({
+      id: "new-empty-graph",
+      name: "Create new empty graph",
+      callback: () => void this.createGraphFile(undefined, "sandbox"),
+    });
+    this.addCommand({
       id: "animate",
       name: "Start timelapse animation",
       checkCallback: (checking) => {
@@ -162,17 +167,21 @@ export default class GraphPlusPlugin extends Plugin {
     return leaf && isGraphHost(leaf.view) ? leaf.view.controller : null;
   }
 
-  /** Creates `Untitled graph.graph` (in `folder`, or where new notes go) and opens it. */
-  async createGraphFile(folder?: TFolder): Promise<void> {
+  /**
+   * Creates `Untitled graph.graph` (in `folder`, or where new notes go) and
+   * opens it with its title selected for renaming, like a new canvas. A
+   * sandbox graph starts blank; you add notes to it.
+   */
+  async createGraphFile(folder?: TFolder, mode: "vault" | "sandbox" = "vault"): Promise<void> {
     const parent = folder ?? this.app.fileManager.getNewFileParent("");
     const path = availablePath(this.app, parent.path, "Untitled graph", GRAPH_EXTENSION);
     const text = serializeGraphFile({
-      state: defaultGraphState(),
+      state: defaultGraphState(mode),
       camera: null,
       positions: new Map(),
     });
     const file = await this.app.vault.create(path, text);
-    await this.app.workspace.getLeaf("tab").openFile(file);
+    await this.app.workspace.getLeaf("tab").openFile(file, { eState: { rename: "all" } });
   }
 
   async loadSettings(): Promise<void> {

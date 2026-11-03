@@ -108,6 +108,8 @@ export class GraphController extends Component {
     this.renderer.onSelectedMoved = (anchor) => this.placeCard(anchor);
     this.renderer.onSettled = () => owner.onLayoutChange?.();
     this.renderer.onCameraChange = () => this.cameraMoved();
+    // A drag changes the layout; let a file view know to save it.
+    this.renderer.onDragEnd = () => this.changed();
     this.emptyEl = this.host.createDiv({ cls: "graph-plus-empty is-hidden" });
     this.controls = new GraphControls(app, this.host, this.state, {
       onFilters: (filters) => {

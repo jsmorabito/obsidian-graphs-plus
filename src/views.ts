@@ -30,7 +30,8 @@ export const VIEW_TYPE_GRAPH = "graph-plus";
 export const VIEW_TYPE_LOCAL = "graph-plus-local";
 export const VIEW_TYPE_FILE = "graph-plus-file";
 export const VIEW_TYPES = [VIEW_TYPE_GRAPH, VIEW_TYPE_LOCAL, VIEW_TYPE_FILE];
-export const ICON = "waypoints";
+/** Core's graph view icon. */
+export const ICON = "git-fork";
 
 /** Refreshes the tab and view titles; not public API, so only when it exists. */
 const updateHeader = (leaf: WorkspaceLeaf): void => {
@@ -310,6 +311,13 @@ export class GraphFileView extends TextFileView implements GraphHost {
   /** Set when the file isn't ours; we then never write to it. */
   private error: string | null = null;
   private lastPositions = new Map<string, { x: number; y: number }>();
+  /**
+   * You changed something here (settings, a drag, the camera) and the
+   * layout that follows should be saved. A layout that settles after a
+   * change from elsewhere (the same file open in another tab) is never
+   * written back, or the two tabs would keep saving over each other.
+   */
+  private layoutDirty = false;
 
   constructor(
     leaf: WorkspaceLeaf,
@@ -356,8 +364,14 @@ export class GraphFileView extends TextFileView implements GraphHost {
       return;
     }
     if (this.controller && !clear) {
-      // Edited outside this view: apply the settings, keep the layout running.
-      this.controller.setState(parsed.state);
+      // Changed elsewhere (another tab, or by hand): apply new settings and
+      // keep this tab's own layout and camera. A change of layout or camera
+      // alone needs nothing here.
+      const settings = (state: GraphViewState): string =>
+        serializeGraphFile({ state, camera: null, positions: new Map() });
+      if (settings(parsed.state) !== settings(this.controller.state)) {
+        this.controller.setState(parsed.state);
+      }
       return;
     }
     this.controller?.destroy();
@@ -367,9 +381,13 @@ export class GraphFileView extends TextFileView implements GraphHost {
       this.contentEl,
       {
         view: this,
-        onStateChange: () => this.requestSave(),
+        onStateChange: () => {
+          this.layoutDirty = true;
+          this.requestSave();
+        },
         onLayoutChange: () => {
-          if (!this.controller) return;
+          if (!this.controller || !this.layoutDirty) return;
+          this.layoutDirty = false;
           if (positionsChanged(this.controller.renderer.positions(), this.lastPositions)) {
             this.requestSave();
           }
