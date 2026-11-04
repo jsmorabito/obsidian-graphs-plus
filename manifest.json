@@ -1,7 +1,7 @@
 {
   "id": "graphs-plus",
   "name": "Graphs Plus",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "minAppVersion": "1.7.2",
   "description": "A graph view that looks and behaves like the core graph, but can be opened several times, saved to .graph files, and extended.",
   "author": "John Morabito",
