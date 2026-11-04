@@ -9,10 +9,18 @@ import type GraphsPlusPlugin from "./main";
 export type GraphsPlusSettings = {
   /** What a plain click on a node does; Cmd/Ctrl-click always opens the note. */
   nodeClick: "open" | "card";
+  /** Show a ribbon icon that opens the graph view. Off by default. */
+  showRibbonIcon: boolean;
 };
 
 export const DEFAULT_SETTINGS: GraphsPlusSettings = {
   nodeClick: "open",
+  showRibbonIcon: false,
+};
+
+const RIBBON = {
+  name: "Show ribbon icon",
+  desc: "Add an icon to the left ribbon that opens Graphs Plus.",
 };
 
 const NODE_CLICK = {
@@ -42,7 +50,25 @@ export class GraphsPlusSettingTab extends PluginSettingTab {
           options: NODE_CLICK.options,
         },
       },
+      {
+        name: RIBBON.name,
+        desc: RIBBON.desc,
+        control: {
+          type: "toggle",
+          key: "showRibbonIcon",
+          defaultValue: DEFAULT_SETTINGS.showRibbonIcon,
+        },
+      },
     ];
+  }
+
+  /**
+   * Called by Obsidian 1.13+ when a definition control changes. Mirrors the base
+   * (assign, then save) but goes through `saveSettings` so live settings apply.
+   */
+  async setControlValue(key: string, value: unknown): Promise<void> {
+    (this.plugin.settings as Record<string, unknown>)[key] = value;
+    await this.plugin.saveSettings();
   }
 
   /** Fallback for Obsidian versions before 1.13, which don't read the definitions. */
@@ -60,6 +86,15 @@ export class GraphsPlusSettingTab extends PluginSettingTab {
             this.plugin.settings.nodeClick = value === "card" ? "card" : "open";
             await this.plugin.saveSettings();
           }),
+      );
+    new Setting(containerEl)
+      .setName(RIBBON.name)
+      .setDesc(RIBBON.desc)
+      .addToggle((t) =>
+        t.setValue(this.plugin.settings.showRibbonIcon).onChange(async (value) => {
+          this.plugin.settings.showRibbonIcon = value;
+          await this.plugin.saveSettings();
+        }),
       );
   }
 }

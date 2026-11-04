@@ -11,7 +11,7 @@ Everything core offers is here too: the local graph, color groups, tag and attac
 
 ## Usage
 
-Open a graph from the ribbon icon or the command palette. Commands:
+Open a graph from the command palette, or turn on **Show ribbon icon** in the plugin's settings to get a ribbon button. Commands:
 
 | Command | What it does |
 | --- | --- |

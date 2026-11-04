@@ -24,6 +24,7 @@ export default class GraphsPlusPlugin extends Plugin {
   settings: GraphsPlusSettings = { ...DEFAULT_SETTINGS };
   contentIndex = new ContentIndex(this.app);
   api: GraphsPlusApi = createApi(this);
+  private ribbonIconEl: HTMLElement | null = null;
 
   async onload(): Promise<void> {
     await this.loadSettings();
@@ -46,9 +47,7 @@ export default class GraphsPlusPlugin extends Plugin {
       defaultMod: true,
     });
 
-    this.addRibbonIcon(ICON, "Open Graphs Plus", (e) =>
-      void openGraphView(this, "vault", e.metaKey || e.ctrlKey),
-    );
+    this.updateRibbonIcon();
 
     this.addCommand({
       id: "open",
@@ -184,11 +183,34 @@ export default class GraphsPlusPlugin extends Plugin {
     await this.app.workspace.getLeaf("tab").openFile(file, { eState: { rename: "all" } });
   }
 
-  async loadSettings(): Promise<void> {
-    this.settings = { ...DEFAULT_SETTINGS, ...((await this.loadData()) as Partial<GraphsPlusSettings> | null) };
+  /**
+   * Shows or hides the ribbon icon to match `settings.showRibbonIcon`. The icon
+   * is only added once it's first wanted, then hidden rather than removed, so
+   * toggling never registers duplicate ribbon items.
+   */
+  updateRibbonIcon(): void {
+    const show = this.settings.showRibbonIcon;
+    if (show && !this.ribbonIconEl) {
+      this.ribbonIconEl = this.addRibbonIcon(ICON, "Open Graphs Plus", (e) =>
+        void openGraphView(this, "vault", e.metaKey || e.ctrlKey),
+      );
+    }
+    this.ribbonIconEl?.toggle(show);
   }
 
+  async loadSettings(): Promise<void> {
+    const saved = (await this.loadData()) as Partial<GraphsPlusSettings> | null;
+    this.settings = { ...DEFAULT_SETTINGS, ...saved };
+    // Installs from before this setting existed always had the icon; keep it.
+    if (saved && saved.showRibbonIcon === undefined) {
+      this.settings.showRibbonIcon = true;
+      await this.saveSettings();
+    }
+  }
+
+  /** Persists the settings and applies the ones that take effect live. */
   async saveSettings(): Promise<void> {
     await this.saveData(this.settings);
+    this.updateRibbonIcon();
   }
 }
